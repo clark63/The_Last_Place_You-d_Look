@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Last Place You'd Look — KOMB Studios</title>
+<link href="https://fonts.googleapis.com/css2?family=Beth+Ellen&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sage: #828E5C;
+  --sage-mid: #CBE080;
+  --sage-pale: #D9DEC7;
+  --cream: #FFEEB4;
+  --parchment: #F5EDD8;
+  --parchment-dark: #EAE0C8;
+  --tan: #B3BA63;
+  --warm-dark: #443624;
+  --warm-mid: #7A5C3C;
+  --charcoal: #6B6B60;
+  --dark-olive: #4D6B20;
+  --white: #FAFAF5;
+  --text-dark: #2a2a20;
+  --text-mid: #5a5a4a;
+  --border: rgba(130,142,92,0.22);
+  --border-warm: rgba(179,138,80,0.25);
+  --gold: #C9A84C;
+  --gold-light: #E8D5A3;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--parchment); color: var(--text-dark); font-family: 'DM Sans', sans-serif; font-weight: 300; font-size: 16px; line-height: 1.7; }
+
+/* NAV */
+nav {
+  position: relative;
+  z-index: 200;
+  background: rgba(40,30,16,0.92);
+  border-top: 1px solid rgba(201,168,76,0.18);
+  padding: 0 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  transition: box-shadow 0.3s, background 0.3s;
+}
+nav.stuck {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(40,30,16,0.98);
+  border-top: none;
+  border-bottom: 1px solid rgba(201,168,76,0.22);
+  box-shadow: 0 2px 28px rgba(0,0,0,0.4);
+}
+#nav-placeholder { display: none; height: 56px; }
+#nav-placeholder.active { display: block; }
+.nav-wordmark { display:flex; align-items:center; gap:1rem; text-decoration:none; }
+.nav-logo-pill { background:var(--gold); color:var(--warm-dark); font-size:0.62rem; font-weight:500; letter-spacing:0.12em; padding:0.2rem 0.65rem; border-radius:2px; text-transform:uppercase; }
+.nav-name { font-family:'Beth Ellen',cursive; font-size:1.05rem; color:var(--gold-light); }
+.nav-links { display:flex; gap:1.5rem; list-style:none; }
+.nav-links a { font-size:0.7rem; letter-spacing:0.09em; text-transform:uppercase; color:rgba(232,213,163,0.65); text-decoration:none; transition:color 0.2s; }
+.nav-links a:hover { color:var(--gold-light); }
+
+/* HERO */
+.hero {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  background: #1a1008;
+  padding: 0;
+}
+.hero-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── MUSEUM SCENE LAYERS ── */
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* base wall colour */
+.hero-bg-pattern::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 60%, #3d2510 0%, #1e0f04 60%, #0e0702 100%);
+}
+
+/* dramatic ceiling light shaft */
+.hero-bg-pattern::after {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 85%;
+  background: radial-gradient(ellipse at 50% 0%, rgba(220,170,60,0.12) 0%, rgba(200,140,40,0.04) 45%, transparent 70%);
+  pointer-events: none;
+}
+
+/* floor reflection strip */
+.hero-floor {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 28%;
+  background: linear-gradient(to top,
+    rgba(80,45,10,0.9) 0%,
+    rgba(60,32,8,0.6) 40%,
+    transparent 100%);
+  z-index: 1;
+}
+
+/* floor marble lines */
+.hero-floor::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg,
+      transparent 0px,
+      transparent 119px,
+      rgba(201,168,76,0.06) 119px,
+      rgba(201,168,76,0.06) 120px
+    ),
+    repeating-linear-gradient(0deg,
+      transparent 0px,
+      transparent 59px,
+      rgba(201,168,76,0.04) 59px,
+      rgba(201,168,76,0.04) 60px
+    );
+}
+
+/* arched ceiling structural ribs */
+.hero-arch {
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* wall moulding dado rail */
+.hero-dado {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(201,168,76,0.35) 15%, rgba(201,168,76,0.35) 85%, transparent);
+  z-index: 1;
+}
+.hero-dado.top { top: 8%; }
+.hero-dado.mid { top: 62%; }
+
+/* decorative wallpaper damask tile — repeated pattern */
+.hero-wallpaper {
+  position: absolute;
+  inset: 0;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cpath d='M40 5 C30 15 15 15 10 25 C5 35 15 40 10 50 C5 60 20 65 20 72 C25 65 22 55 30 50 C35 45 40 48 40 48 C40 48 45 45 50 50 C58 55 55 65 60 72 C60 65 75 60 70 50 C65 40 75 35 70 25 C65 15 50 15 40 5Z' fill='%23C9A84C'/%3E%3Ccircle cx='40' cy='40' r='4' fill='%23C9A84C'/%3E%3C/svg%3E");
+  background-size: 80px 80px;
+  z-index: 0;
+}
+
+/* parallax painting containers */
+.hero-paintings {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* individual gilded frames */
+.hpf {
+  position: absolute;
+  border: 3px solid transparent;
+  border-image: linear-gradient(135deg, #8B6914, #C9A84C, #E8D5A3, #C9A84C, #8B6914) 1;
+  box-shadow:
+    0 0 0 1px rgba(201,168,76,0.2),
+    inset 0 0 0 2px rgba(201,168,76,0.1),
+    0 8px 40px rgba(0,0,0,0.7),
+    0 2px 8px rgba(201,168,76,0.15);
+}
+
+/* frame content (painted canvas colours) */
+.hpf-canvas {
+  width: 100%; height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* spotlight on each painting */
+.hpf::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 60px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(220,170,60,0.3) 0%, transparent 70%);
+}
+
+/* figures (silhouettes of visitors) */
+.hero-figures {
+  position: absolute;
+  bottom: 26%;
+  left: 0; right: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 4rem;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hfig {
+  width: 12px;
+  border-radius: 4px 4px 0 0;
+  background: rgba(20,10,3,0.8);
+  position: relative;
+  bottom: 0;
+}
+
+.hfig::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(20,10,3,0.75);
+}
+
+/* statue silhouettes */
+.hero-statues {
+  position: absolute;
+  bottom: 25%;
+  left: 0; right: 0;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* pilasters / columns along walls */
+.hero-pilaster {
+  position: absolute;
+  top: 8%; bottom: 25%;
+  width: 18px;
+  background: linear-gradient(to right, rgba(80,45,15,0.0) 0%, rgba(120,75,25,0.25) 20%, rgba(140,90,30,0.3) 50%, rgba(120,75,25,0.25) 80%, rgba(80,45,15,0.0) 100%);
+  z-index: 1;
+}
+
+/* vignette overlay darkening the edges */
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, transparent 28%, rgba(10,5,1,0.75) 72%, rgba(5,2,0,0.95) 100%);
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* scroll hint and frame sit above vignette */
+.hero-content { z-index: 4; }
+.hero-scroll { z-index: 4; }
+.hero-frame { border:1px solid rgba(201,168,76,0.4); max-width:820px; width:100%; padding:5rem 4rem; text-align:center; position:relative; z-index:1; }
+.hero-frame::before { content:''; position:absolute; inset:10px; border:1px solid rgba(201,168,76,0.15); pointer-events:none; }
+.hc { position:absolute; width:22px; height:22px; border-color:var(--gold); border-style:solid; opacity:0.55; }
+.hc.tl { top:-1px; left:-1px; border-width:2px 0 0 2px; }
+.hc.tr { top:-1px; right:-1px; border-width:2px 2px 0 0; }
+.hc.bl { bottom:-1px; left:-1px; border-width:0 0 2px 2px; }
+.hc.br { bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+.hero-exhibit-tag { display:inline-block; border:1px solid rgba(201,168,76,0.45); color:var(--gold); font-size:0.65rem; letter-spacing:0.18em; text-transform:uppercase; padding:0.32rem 1rem; margin-bottom:2.5rem; }
+.hero h1 { font-family:'Beth Ellen',cursive; font-size:clamp(2.8rem,7vw,5.5rem); color:var(--parchment); line-height:1.05; margin-bottom:1.5rem; }
+.hero-subtitle { font-family:'Cormorant Garamond',serif; font-size:1.2rem; color:var(--gold-light); font-style:italic; margin-bottom:0.75rem; font-weight:300; }
+.hero-meta { font-size:0.72rem; color:rgba(232,213,163,0.45); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:2.5rem; }
+.hero-div { display:flex; align-items:center; gap:1rem; justify-content:center; margin-bottom:2.5rem; }
+.hero-div-line { width:56px; height:1px; background:rgba(201,168,76,0.3); }
+.hero-div-diamond { width:5px; height:5px; background:var(--gold); transform:rotate(45deg); opacity:0.6; }
+.hero-members { display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; }
+.hero-member { display:flex; flex-direction:column; align-items:center; gap:0.3rem; }
+.hero-member-i { width:38px; height:38px; border-radius:50%; border:1px solid rgba(201,168,76,0.35); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--gold-light); }
+.hero-member-n { font-size:0.65rem; color:rgba(232,213,163,0.5); letter-spacing:0.06em; }
+.hero-scroll { display:flex; flex-direction:column; align-items:center; gap:0.4rem; color:rgba(201,168,76,0.35); font-size:0.62rem; letter-spacing:0.12em; text-transform:uppercase; padding-bottom:1rem; }
+
+/* SECTION SHELLS */
+section { padding:6rem 0; position:relative; z-index:1; }
+.bg-parchment { background:var(--parchment); }
+.bg-pale { background:var(--parchment-dark); }
+.bg-dark { background:var(--warm-dark); }
+.bg-sage { background:var(--sage-pale); }
+.bg-deep { background:#3a2c18; }
+.container { max-width:1140px; margin:0 auto; padding:0 3rem; }
+
+/* LABEL / TITLE */
+.exhibit-label { display:flex; align-items:center; gap:0.75rem; margin-bottom:0.9rem; }
+.el-line { width:26px; height:1px; background:var(--gold); }
+.el-text { font-size:0.63rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--warm-mid); font-weight:500; }
+.section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,3.5vw,2.9rem); color:var(--warm-dark); line-height:1.1; font-weight:400; margin-bottom:0.75rem; }
+.section-title.light { color:var(--parchment); }
+.section-intro { font-size:1rem; color:var(--text-mid); max-width:640px; margin-bottom:3rem; line-height:1.8; }
+.ornament { display:flex; align-items:center; gap:0.8rem; margin:1.2rem 0 2.75rem; }
+.orn-line { flex:0 0 34px; height:1px; background:var(--gold); opacity:0.45; }
+.orn-dia { width:5px; height:5px; background:var(--gold); transform:rotate(45deg); opacity:0.65; }
+.orn-line2 { width:12px; height:1px; background:var(--gold); opacity:0.25; }
+
+/* CARDS */
+.exhibit-card { background:var(--parchment); border:1px solid var(--border-warm); border-radius:2px; padding:1.4rem 1.5rem; position:relative; }
+.exhibit-card::before { content:''; position:absolute; inset:5px; border:1px solid rgba(201,168,76,0.07); pointer-events:none; }
+.ec-label { font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:0.45rem; font-weight:500; }
+.exhibit-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--warm-dark); font-weight:400; margin-bottom:0.55rem; }
+.exhibit-card p { font-size:0.84rem; color:var(--text-mid); line-height:1.65; }
+
+/* TAGS */
+.tag-row { display:flex; flex-wrap:wrap; gap:0.38rem; margin-top:1.2rem; }
+.tag { font-size:0.67rem; letter-spacing:0.04em; background:rgba(130,142,92,0.12); color:var(--dark-olive); border-radius:2px; padding:0.2rem 0.58rem; }
+
+/* ABOUT */
+.about-grid { display:grid; grid-template-columns:1.15fr 1fr; gap:5rem; align-items:start; }
+.about-text p { color:var(--text-mid); margin-bottom:1.1rem; font-size:1rem; line-height:1.8; }
+.team-grid { display:grid; grid-template-columns:1fr; gap:0.65rem; }
+.member-plaque { background:var(--parchment-dark); border:1px solid var(--border-warm); border-radius:2px; padding:0.95rem 1.1rem; display:flex; gap:0.9rem; align-items:flex-start; }
+.member-initial-frame { width:38px; height:38px; border-radius:50%; background:var(--warm-dark); border:1px solid rgba(201,168,76,0.35); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:var(--gold-light); flex-shrink:0; }
+.member-plaque-name { font-family:'Cormorant Garamond',serif; font-size:1.02rem; color:var(--warm-dark); font-weight:400; margin-bottom:0.1rem; }
+.member-plaque-role { font-size:0.74rem; color:var(--charcoal); line-height:1.45; }
+
+/* STYLE TILE */
+.swatch-row { display:flex; gap:0.7rem; flex-wrap:wrap; margin-bottom:3.2rem; }
+.swatch { width:58px; height:58px; border-radius:2px; border:1px solid rgba(0,0,0,0.07); position:relative; }
+.swatch::after { content:attr(data-hex); position:absolute; bottom:-1.3rem; left:50%; transform:translateX(-50%); font-size:0.58rem; color:var(--charcoal); white-space:nowrap; font-family:monospace; }
+.type-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-top:3rem; }
+.type-block { background:var(--parchment-dark); border:1px solid var(--border-warm); border-radius:2px; padding:1.4rem; }
+.type-label { font-size:0.62rem; letter-spacing:0.13em; text-transform:uppercase; color:var(--charcoal); margin-bottom:0.7rem; }
+.icon-row { display:flex; gap:1.25rem; align-items:center; margin-top:2rem; }
+.icon-chip { width:52px; height:52px; border-radius:50%; background:var(--parchment-dark); border:1px solid var(--border-warm); display:flex; align-items:center; justify-content:center; font-size:1.4rem; color:var(--warm-dark); }
+.btn-row { display:flex; gap:0.75rem; flex-wrap:wrap; margin-top:2rem; }
+.ui-btn { padding:0.5rem 1.2rem; border-radius:20px; font-size:0.8rem; cursor:default; }
+.ui-btn.filled { background:var(--sage-pale); border:1px solid var(--sage); color:var(--dark-olive); }
+.ui-btn.outline { background:transparent; border:1px solid var(--border-warm); color:var(--warm-mid); }
+
+/* PROJECT SECTIONS */
+.project-number { font-family:'Beth Ellen',cursive; font-size:5rem; color:rgba(68,54,36,0.07); line-height:1; flex-shrink:0; }
+.project-header { display:flex; align-items:baseline; gap:1.5rem; margin-bottom:0.5rem; }
+.project-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:4.5rem; align-items:start; }
+.project-grid.flip { direction:rtl; }
+.project-grid.flip > * { direction:ltr; }
+.project-text p { color:var(--text-mid); margin-bottom:1rem; font-size:1rem; line-height:1.8; }
+.meta-strip { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+.meta-chip { font-size:0.7rem; letter-spacing:0.05em; background:transparent; color:var(--warm-mid); border:1px solid rgba(179,138,80,0.38); border-radius:2px; padding:0.23rem 0.78rem; }
+
+/* IMAGE FRAMES */
+.img-frame { background:var(--parchment-dark); border:1px solid var(--border-warm); border-radius:2px; aspect-ratio:4/3; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.6rem; padding:1.5rem; text-align:center; position:relative; overflow:hidden; }
+.img-frame::before { content:''; position:absolute; inset:7px; border:1px dashed rgba(179,138,80,0.28); pointer-events:none; }
+.img-frame-icon { width:34px; height:34px; border:1px solid rgba(179,138,80,0.38); display:flex; align-items:center; justify-content:center; color:var(--warm-mid); font-size:0.85rem; border-radius:2px; }
+.img-frame strong { font-size:0.8rem; color:var(--warm-dark); font-weight:500; }
+.img-frame .img-note { font-size:0.64rem; color:var(--warm-mid); font-style:italic; }
+.img-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.55rem; margin-top:0.55rem; }
+.img-grid .img-frame { aspect-ratio:1; }
+.img-wide { aspect-ratio:16/7; }
+.img-landscape { aspect-ratio:3/2; }
+
+/* AI PROOF */
+.ai-proof { background:rgba(68,54,36,0.04); border:1px solid rgba(68,54,36,0.1); border-left:3px solid var(--gold); border-radius:0 2px 2px 0; padding:1.3rem 1.5rem; margin:1.75rem 0; }
+.ai-proof-header { display:flex; align-items:center; gap:0.65rem; margin-bottom:1rem; }
+.ai-badge { display:inline-flex; align-items:center; background:var(--warm-dark); color:var(--gold-light); font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; padding:0.2rem 0.6rem; border-radius:2px; font-weight:500; }
+.ai-proof-title { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--warm-dark); font-weight:400; }
+.ai-io { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:0.75rem; }
+.ai-input, .ai-output { border-radius:2px; padding:0.85rem 1rem; }
+.ai-input { background:rgba(68,54,36,0.06); border:1px solid rgba(68,54,36,0.1); }
+.ai-output { background:rgba(77,107,32,0.06); border:1px solid rgba(77,107,32,0.15); }
+.ai-io-label { font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; font-weight:500; margin-bottom:0.4rem; }
+.ai-input .ai-io-label { color:var(--warm-mid); }
+.ai-output .ai-io-label { color:var(--dark-olive); }
+.ai-input p, .ai-output p { font-size:0.8rem; color:var(--text-mid); line-height:1.6; font-style:italic; margin:0; }
+.ai-output p { font-style:normal; }
+.ai-screenshot { margin-top:0.75rem; }
+
+/* INSTAGRAM */
+.insta-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:0.55rem; margin-top:1rem; }
+.insta-post { background:var(--parchment-dark); border:1px solid var(--border-warm); border-radius:2px; aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0.35rem; padding:0.75rem; text-align:center; position:relative; }
+.insta-post::before { content:''; position:absolute; inset:5px; border:1px dashed rgba(179,138,80,0.22); pointer-events:none; }
+.insta-post-icon { font-size:0.72rem; color:var(--warm-mid); }
+.insta-post-caption { font-size:0.6rem; color:var(--charcoal); font-style:italic; line-height:1.4; }
+.insta-handle { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--warm-dark); font-weight:400; margin-bottom:0.5rem; }
+
+/* ── USER TESTING SECTION ── */
+.testing-project-block { margin-bottom:4rem; }
+.testing-project-block:last-child { margin-bottom:0; }
+
+.testing-project-header {
+  display:flex;
+  align-items:center;
+  gap:1.25rem;
+  padding:1rem 1.4rem;
+  background:var(--warm-dark);
+  border-radius:2px;
+  margin-bottom:1.25rem;
+}
+
+.testing-project-num {
+  font-family:'Beth Ellen',cursive;
+  font-size:2.2rem;
+  color:rgba(201,168,76,0.3);
+  line-height:1;
+}
+
+.testing-project-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;
+  color:var(--parchment);
+  font-weight:400;
+}
+
+.testing-project-sub {
+  font-size:0.72rem;
+  color:rgba(232,213,163,0.5);
+  letter-spacing:0.06em;
+}
+
+.platform-block { margin-bottom:2rem; }
+
+.platform-label {
+  display:flex;
+  align-items:center;
+  gap:0.65rem;
+  margin-bottom:0.85rem;
+}
+
+.platform-dot {
+  width:8px; height:8px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+
+.pd-ar { background:#4D6B20; }
+.pd-vr { background:#96281B; }
+.pd-ph { background:#B38A50; }
+.pd-di { background:#443624; }
+
+.platform-name {
+  font-size:0.68rem;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--warm-mid);
+  font-weight:500;
+}
+
+.test-grid { display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; }
+
+.test-card { background:var(--parchment); border:1px solid var(--border-warm); border-radius:2px; padding:1.1rem 1.2rem; }
+
+.test-card-top {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:0.6rem;
+}
+
+.test-round {
+  font-size:0.6rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--charcoal);
+}
+
+.test-badge { font-size:0.6rem; font-weight:500; padding:0.15rem 0.5rem; border-radius:2px; letter-spacing:0.06em; }
+.tb-finding { background:rgba(150,40,27,0.1); color:#96281B; }
+.tb-resolved { background:rgba(77,107,32,0.12); color:var(--dark-olive); }
+.tb-kept { background:rgba(201,168,76,0.15); color:#7a6010; }
+
+.test-quote {
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.97rem;
+  color:var(--warm-dark);
+  font-style:italic;
+  font-weight:400;
+  margin-bottom:0.5rem;
+  line-height:1.5;
+}
+
+.test-quote::before { content:'\201C'; }
+.test-quote::after { content:'\201D'; }
+
+.test-solution { font-size:0.78rem; color:var(--text-mid); line-height:1.55; }
+.test-solution strong { color:var(--dark-olive); font-weight:500; }
+
+/* EVIDENCE ROW */
+.evidence-row { display:grid; grid-template-columns:repeat(3,1fr); gap:0.8rem; margin-top:1.5rem; }
+.evidence-card { background:var(--parchment); border:1px solid var(--border-warm); border-radius:2px; padding:1rem 1.1rem; }
+.evidence-card h4 { font-family:'Cormorant Garamond',serif; font-size:0.95rem; color:var(--warm-dark); font-weight:400; margin-bottom:0.38rem; }
+.evidence-card p { font-size:0.79rem; color:var(--text-mid); line-height:1.55; margin:0; }
+
+/* PROJECT MANAGEMENT */
+.pm-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:3.5rem; }
+.meeting-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-top:1.5rem; margin-bottom:3.5rem; }
+
+/* RACI */
+.raci-table { width:100%; border-collapse:collapse; font-size:0.79rem; }
+.raci-table th { background:var(--warm-dark); color:var(--gold-light); font-weight:400; text-align:left; padding:0.7rem 0.9rem; border-bottom:1px solid rgba(201,168,76,0.25); font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase; }
+.raci-table td { padding:0.58rem 0.9rem; border-bottom:1px solid var(--border-warm); color:var(--text-mid); vertical-align:middle; }
+.raci-table tr:last-child td { border-bottom:none; }
+.raci-table tbody tr:hover td { background:rgba(201,168,76,0.04); }
+.rb { display:inline-block; font-size:0.62rem; font-weight:500; padding:0.14rem 0.48rem; border-radius:2px; letter-spacing:0.05em; }
+.rb-r { background:rgba(130,142,92,0.2); color:var(--dark-olive); }
+.rb-a { background:rgba(201,168,76,0.18); color:#7a6010; }
+.rb-c { background:rgba(68,54,36,0.09); color:var(--warm-mid); }
+.rb-i { background:rgba(107,107,96,0.09); color:var(--charcoal); }
+
+/* TIMELINE */
+.timeline { position:relative; padding-left:1.5rem; }
+.timeline::before { content:''; position:absolute; left:0; top:0; bottom:0; width:1px; background:linear-gradient(to bottom,var(--gold) 0%,var(--tan) 50%,rgba(201,168,76,0.15) 100%); }
+.tl-phase { margin-bottom:0.5rem; margin-top:3rem; }
+.tl-phase:first-child { margin-top:0; }
+.tl-phase-label { font-size:0.63rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--warm-mid); font-weight:500; margin-bottom:1rem; padding-left:1.5rem; position:relative; }
+.tl-phase-label::before { content:''; position:absolute; left:-1.75rem; top:50%; transform:translateY(-50%); width:8px; height:8px; background:var(--gold); border-radius:50%; border:2px solid var(--parchment-dark); box-shadow:0 0 0 2px var(--gold); }
+.tl-week { display:grid; grid-template-columns:66px 1fr; gap:0.9rem; margin-bottom:0.75rem; padding-left:1.5rem; align-items:start; }
+.tl-wn { font-family:'Beth Ellen',cursive; font-size:1.35rem; color:rgba(68,54,36,0.18); padding-top:0.55rem; }
+.tl-card { background:var(--parchment); border:1px solid var(--border-warm); border-radius:2px; padding:0.85rem 1.05rem; }
+.tl-title { font-family:'Cormorant Garamond',serif; font-size:0.96rem; color:var(--warm-dark); font-weight:400; margin-bottom:0.28rem; }
+.tl-desc { font-size:0.78rem; color:var(--text-mid); line-height:1.55; }
+.tl-tags { display:flex; flex-wrap:wrap; gap:0.28rem; margin-top:0.45rem; }
+.tl-tag { font-size:0.6rem; padding:0.1rem 0.45rem; border-radius:2px; }
+.tt-ar { background:rgba(77,107,32,0.12); color:var(--dark-olive); }
+.tt-vr { background:rgba(150,40,27,0.1); color:#96281B; }
+.tt-ph { background:rgba(179,138,80,0.15); color:#7a5c20; }
+.tt-di { background:rgba(68,54,36,0.09); color:var(--warm-mid); }
+.tt-mg { background:rgba(107,107,96,0.1); color:var(--charcoal); }
+.tt-ms { background:rgba(201,168,76,0.18); color:#7a6010; font-weight:500; }
+
+/* VIDEO */
+.video-frame { border:1px solid rgba(201,168,76,0.32); border-radius:2px; aspect-ratio:16/9; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1rem; background:rgba(0,0,0,0.18); position:relative; }
+.video-frame::before { content:''; position:absolute; inset:8px; border:1px solid rgba(201,168,76,0.1); pointer-events:none; }
+.vc { position:absolute; width:16px; height:16px; border-color:var(--gold); border-style:solid; opacity:0.45; }
+.vc.tl { top:-1px; left:-1px; border-width:2px 0 0 2px; }
+.vc.tr { top:-1px; right:-1px; border-width:2px 2px 0 0; }
+.vc.bl { bottom:-1px; left:-1px; border-width:0 0 2px 2px; }
+.vc.br { bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+.video-play { width:62px; height:62px; border-radius:50%; border:1px solid rgba(201,168,76,0.45); display:flex; align-items:center; justify-content:center; color:var(--gold-light); font-size:1.25rem; }
+.video-meta-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:1.5rem; }
+.vmc { border:1px solid rgba(201,168,76,0.18); border-radius:2px; padding:0.95rem 1.1rem; }
+.vmc-l { font-size:0.6rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(232,213,163,0.45); margin-bottom:0.28rem; }
+.vmc-v { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--parchment); font-weight:300; }
+
+/* WALKTHROUGH */
+.walk-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; margin-top:2.5rem; }
+.walk-step { border-top:1px solid var(--gold); padding-top:1.15rem; }
+.walk-num { font-family:'Beth Ellen',cursive; font-size:2.4rem; color:rgba(68,54,36,0.13); line-height:1; margin-bottom:0.45rem; }
+.walk-title { font-family:'Cormorant Garamond',serif; font-size:0.98rem; color:var(--warm-dark); font-weight:400; margin-bottom:0.42rem; }
+.walk-desc { font-size:0.8rem; color:var(--text-mid); line-height:1.6; }
+
+/* INDIVIDUAL REFLECTION */
+.individual-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-bottom:3.5rem; }
+
+.individual-card {
+  background:var(--parchment);
+  border:1px solid var(--border-warm);
+  border-radius:2px;
+  padding:1.6rem;
+  position:relative;
+}
+
+.individual-card::before { content:''; position:absolute; inset:5px; border:1px solid rgba(201,168,76,0.07); pointer-events:none; }
+
+.individual-card-header {
+  display:flex;
+  align-items:center;
+  gap:0.85rem;
+  margin-bottom:1rem;
+  padding-bottom:0.85rem;
+  border-bottom:1px solid var(--border-warm);
+}
+
+.individual-initial {
+  width:44px; height:44px;
+  border-radius:50%;
+  background:var(--warm-dark);
+  border:1px solid rgba(201,168,76,0.35);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;
+  color:var(--gold-light);
+  flex-shrink:0;
+}
+
+.individual-name {
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.1rem;
+  color:var(--warm-dark);
+  font-weight:400;
+  margin-bottom:0.1rem;
+}
+
+.individual-role {
+  font-size:0.7rem;
+  color:var(--charcoal);
+  letter-spacing:0.04em;
+}
+
+.individual-card p {
+  font-size:0.87rem;
+  color:var(--text-mid);
+  line-height:1.75;
+  margin-bottom:0.75rem;
+}
+
+.individual-card p:last-child { margin-bottom:0; }
+
+.individual-contribution {
+  font-size:0.7rem;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--warm-mid);
+  font-weight:500;
+  margin-top:0.75rem;
+  padding-top:0.75rem;
+  border-top:1px solid var(--border-warm);
+}
+
+/* GROUP REFLECTION */
+.reflection-grid { display:grid; grid-template-columns:1fr 1fr; gap:2.5rem; margin-top:3.5rem; }
+.reflection-block h3 { font-family:'Cormorant Garamond',serif; font-size:1.35rem; color:var(--warm-dark); font-weight:400; margin-bottom:1rem; }
+.reflection-block p { font-size:0.93rem; color:var(--text-mid); line-height:1.85; margin-bottom:0.85rem; }
+.pull-quote { border-left:2px solid var(--gold); padding:0.75rem 1.2rem; margin:1.2rem 0; background:rgba(201,168,76,0.04); }
+.pull-quote p { font-family:'Cormorant Garamond',serif; font-size:1.08rem; color:var(--warm-dark); font-style:italic; font-weight:300; line-height:1.6; margin:0; font-size:1.05rem; }
+.growth-track { display:flex; flex-direction:column; gap:0.7rem; margin-top:1rem; }
+.growth-item { display:grid; grid-template-columns:58px 1fr; gap:0.9rem; align-items:start; }
+.growth-phase { font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--warm-mid); font-weight:500; padding-top:0.1rem; }
+.growth-text { font-size:0.84rem; color:var(--text-mid); line-height:1.6; }
+
+/* FOOTER */
+footer { background:var(--warm-dark); padding:4rem 3rem; text-align:center; border-top:1px solid rgba(201,168,76,0.18); position:relative; z-index:1; }
+.footer-ornament { color:rgba(201,168,76,0.28); font-size:1.3rem; margin-bottom:0.85rem; letter-spacing:0.3em; }
+.footer-title { font-family:'Beth Ellen',cursive; font-size:2.3rem; color:var(--parchment); margin-bottom:0.45rem; }
+.footer-sub { font-size:0.7rem; color:rgba(201,168,76,0.45); letter-spacing:0.1em; text-transform:uppercase; }
+.footer-members { margin-top:1.8rem; font-size:0.7rem; color:rgba(201,168,76,0.28); letter-spacing:0.06em; }
+
+@media (max-width:880px) {
+  nav { padding:0 1.5rem; }
+  .nav-links { gap:1rem; }
+  .container { padding:0 1.5rem; }
+  .about-grid,.project-grid,.reflection-grid,.individual-grid { grid-template-columns:1fr; gap:2.5rem; }
+  .project-grid.flip { direction:ltr; }
+  .walk-steps,.evidence-row,.pm-grid,.video-meta-row,.meeting-row { grid-template-columns:1fr 1fr; }
+  .test-grid { grid-template-columns:1fr; }
+  .insta-grid { grid-template-columns:repeat(2,1fr); }
+  .hero-frame { padding:3rem 2rem; }
+  .ai-io { grid-template-columns:1fr; }
+  .type-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO — museum gallery title page -->
+<section id="hero" class="hero">
+
+  <!-- ── MUSEUM SCENE — simplified ── -->
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-wallpaper"></div>
+
+  <!-- two pilasters flanking the frame -->
+  <div class="hero-pilaster" style="left:8%;"></div>
+  <div class="hero-pilaster" style="right:8%;"></div>
+
+  <!-- minimal SVG: just perspective lines + one arch -->
+  <svg class="hero-arch" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,0 Q600,-60 1200,0" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="1.2"/>
+    <line x1="600" y1="-20" x2="0"    y2="700" stroke="rgba(201,168,76,0.04)" stroke-width="0.7"/>
+    <line x1="600" y1="-20" x2="1200" y2="700" stroke="rgba(201,168,76,0.04)" stroke-width="0.7"/>
+    <line x1="600" y1="-20" x2="300"  y2="700" stroke="rgba(201,168,76,0.025)" stroke-width="0.6"/>
+    <line x1="600" y1="-20" x2="900"  y2="700" stroke="rgba(201,168,76,0.025)" stroke-width="0.6"/>
+  </svg>
+
+  <!-- four paintings only — one large each side, one smaller each side -->
+  <div class="hero-paintings" id="hero-paintings">
+    <!-- far left: large portrait -->
+    <div class="hpf" style="left:3%;top:13%;width:120px;height:158px;">
+      <div class="hpf-canvas" style="background:linear-gradient(160deg,#2a1a0a,#3d2510,#1e0d04);"></div>
+    </div>
+    <!-- far left: small landscape below -->
+    <div class="hpf" style="left:3%;top:56%;width:120px;height:78px;opacity:0.75;">
+      <div class="hpf-canvas" style="background:linear-gradient(120deg,#0d1a0a,#1a2d10,#0a1206);"></div>
+    </div>
+    <!-- near-centre left: medium portrait — flanks the hero frame -->
+    <div class="hpf" style="left:21%;top:18%;width:88px;height:116px;opacity:0.85;">
+      <div class="hpf-canvas" style="background:linear-gradient(140deg,#1a0e04,#2e1808,#180c04);"></div>
+    </div>
+    <!-- near-centre right: medium portrait -->
+    <div class="hpf" style="right:21%;top:18%;width:88px;height:116px;opacity:0.85;">
+      <div class="hpf-canvas" style="background:linear-gradient(140deg,#0a0e18,#101828,#080c14);"></div>
+    </div>
+    <!-- far right: large portrait -->
+    <div class="hpf" style="right:3%;top:13%;width:120px;height:158px;">
+      <div class="hpf-canvas" style="background:linear-gradient(160deg,#0d0a1a,#14103a,#080614);"></div>
+    </div>
+    <!-- far right: small landscape below -->
+    <div class="hpf" style="right:3%;top:56%;width:120px;height:78px;opacity:0.75;">
+      <div class="hpf-canvas" style="background:linear-gradient(120deg,#1a0a0d,#2a1014,#100608);"></div>
+    </div>
+  </div>
+
+  <div class="hero-floor"></div>
+  <div class="hero-vignette"></div>
+
+  <!-- centred frame content -->
+  <div class="hero-content">
+    <div class="hero-frame">
+      <div class="hc tl"></div><div class="hc tr"></div><div class="hc bl"></div><div class="hc br"></div>
+      <div class="hero-exhibit-tag">KOMB Studios  ·  Interactive Narrative Winter 2026</div>
+      <h1>The Last Place<br>You'd Look</h1>
+      <p class="hero-subtitle">A museum-based interactive narrative in the tradition of Pandora's Box</p>
+      <div class="hero-div"><div class="hero-div-line"></div><div class="hero-div-diamond"></div><div class="hero-div-line"></div></div>
+      <div class="hero-members">
+        <div class="hero-member"><div class="hero-member-i">K</div><div class="hero-member-n">Kristen</div></div>
+        <div class="hero-member"><div class="hero-member-i">O</div><div class="hero-member-n">Olivia</div></div>
+        <div class="hero-member"><div class="hero-member-i">M</div><div class="hero-member-n">Minh</div></div>
+        <div class="hero-member"><div class="hero-member-i">B</div><div class="hero-member-n">Brandon</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- scroll hint sits above nav -->
+  <div class="hero-scroll" style="position:relative;bottom:auto;left:auto;transform:none;padding-bottom:0.5rem;">
+    <div style="width:1px;height:24px;background:linear-gradient(to bottom,rgba(201,168,76,0.38),transparent);"></div>
+    <span>Explore</span>
+  </div>
+
+  <!-- NAV lives at the bottom of the hero title page -->
+  <nav id="main-nav">
+    <a class="nav-wordmark" href="#hero">
+      <span class="nav-logo-pill">KOMB</span>
+      <span class="nav-name">The Last Place You'd Look</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#style">Style</a></li>
+      <li><a href="#project1">P1</a></li>
+      <li><a href="#project2">P2</a></li>
+      <li><a href="#project3">P3</a></li>
+      <li><a href="#testing">Testing</a></li>
+      <li><a href="#management">Mgmt</a></li>
+      <li><a href="#video">Final</a></li>
+      <li><a href="#reflection">Reflection</a></li>
+    </ul>
+  </nav>
+</section>
+
+<!-- placeholder keeps layout when nav goes fixed -->
+<div id="nav-placeholder"></div>
+
+<!-- ABOUT -->
+<section id="about" class="bg-parchment">
+  <div class="container">
+    <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Exhibition Notes</span></div>
+    <div class="section-title">KOMB Studios</div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>"The Last Place You'd Look" is a multi-platform interactive narrative set on Sheridan Trafalgar campus. The story follows Flora — a young woman adrift after losing her job — who encounters Mord, a trapped spirit who manipulates her into collecting H-O-P-E artifacts from three historical eras. At the climax, Flora refuses to hand over the final piece, discovering that the hope she sought was always within herself.</p>
+        <p>Inspired by Pandora's Box, the experience reinterprets curiosity, consequence, and agency across AR (Snap Lens Studio), VR (Unity / Oculus Rift S), physical artifacts (riddle boxes, soldier's letter, hand-painted Paralympic medal), a coded guiding app, museum posters, and the Instagram account @kombmuseum. The full experience targets students aged 18–25 and runs 20–45 minutes on campus.</p>
+        <p>This site is our Project 4 case study — a reflective archive of process, AI integration, user testing, and iterative decision-making from January through April 2026.</p>
+        <div class="tag-row">
+          <span class="tag">Pandora's Box</span><span class="tag">AR · VR · Physical · Digital</span><span class="tag">Lens Studio</span><span class="tag">Unity / Oculus Rift S</span><span class="tag">3D Printing</span><span class="tag">Adobe Firefly</span><span class="tag">Claude AI</span><span class="tag">@kombmuseum</span>
+        </div>
+      </div>
+      <div>
+        <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);margin-bottom:0.8rem;font-weight:500;">Curatorial Team</p>
+        <div class="team-grid">
+          <div class="member-plaque"><div class="member-initial-frame">K</div><div><div class="member-plaque-name">Kristen Clark</div><div class="member-plaque-role">Physical Interaction Lead — riddle boxes, 3D-printed puzzles, hand-painted Paralympic medal, user testing oversight</div></div></div>
+          <div class="member-plaque"><div class="member-initial-frame">O</div><div><div class="member-plaque-name">Olivia Ho</div><div class="member-plaque-role">Digital Design Lead &amp; Illustrator — character art, soldier's letter, museum poster, guiding app</div></div></div>
+          <div class="member-plaque"><div class="member-initial-frame">M</div><div><div class="member-plaque-name">Minh Vo</div><div class="member-plaque-role">Project Manager — Gantt chart, @kombmuseum Instagram, campus integration, app flow, documentation site</div></div></div>
+          <div class="member-plaque"><div class="member-initial-frame">B</div><div><div class="member-plaque-name">Brandon Lee</div><div class="member-plaque-role">Immersive Media Lead — AR (Lens Studio / JS) and VR (Unity C# / Oculus Rift S) development</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STYLE TILE -->
+<section id="style" class="bg-pale">
+  <div class="container">
+    <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Visual Identity</span></div>
+    <div class="section-title">Style Tile</div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+    <p class="section-intro">Our visual identity was established in Week 2 and guided all creative decisions across every platform. The palette is named after Flora — natural greens, warm creams, and earthy darks that mirror her arc from vulnerability to growth.</p>
+
+    <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);font-weight:500;margin-bottom:1rem;">Colour Palette</p>
+    <div class="swatch-row">
+      <div class="swatch" style="background:#828E5C;" data-hex="#828E5C"></div>
+      <div class="swatch" style="background:#E0D6CA;" data-hex="#E0D6CA"></div>
+      <div class="swatch" style="background:#6B6B60;" data-hex="#6B6B60"></div>
+      <div class="swatch" style="background:#CBE080;" data-hex="#CBE080"></div>
+      <div class="swatch" style="background:#443624;" data-hex="#443624"></div>
+      <div class="swatch" style="background:#D9DEC7;" data-hex="#D9DEC7"></div>
+      <div class="swatch" style="background:#B3BA63;" data-hex="#B3BA63"></div>
+      <div class="swatch" style="background:#96281B;" data-hex="#96281B"></div>
+      <div class="swatch" style="background:#4D6B20;" data-hex="#4D6B20"></div>
+      <div class="swatch" style="background:#FFEEB4;" data-hex="#FFEEB4"></div>
+    </div>
+
+    <div class="type-grid">
+      <div class="type-block">
+        <div class="type-label">Display — Beth Ellen</div>
+        <div style="font-family:'Beth Ellen',cursive;font-size:2rem;color:var(--warm-dark);line-height:1.2;">Headline Sample</div>
+        <div style="font-size:0.76rem;color:var(--charcoal);margin-top:0.5rem;">Used for hero text, chapter headings, large numerals</div>
+      </div>
+      <div class="type-block">
+        <div class="type-label">Serif — Instrument Serif</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;color:var(--warm-dark);font-weight:400;">Headline Sample</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--charcoal);margin-top:0.3rem;font-size:0.94rem;">Italic for callouts, pull quotes, captions</div>
+        <div style="font-size:0.76rem;color:var(--charcoal);margin-top:0.4rem;">Section headings and editorial body</div>
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem;">
+      <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);font-weight:500;margin-bottom:0.85rem;">Museum Icons</p>
+      <div class="icon-row">
+        <div class="icon-chip">🏛</div>
+        <div class="icon-chip">🏺</div>
+        <div class="icon-chip">🪑</div>
+        <div class="icon-chip">🖼</div>
+        <div class="icon-chip">🔍</div>
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem;">
+      <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);font-weight:500;margin-bottom:0.85rem;">UI Components</p>
+      <div class="btn-row">
+        <div class="ui-btn filled">Button</div>
+        <div class="ui-btn outline">Button</div>
+        <div class="ui-btn filled" style="background:#E0D6CA;border-color:#B3BA63;">Button</div>
+        <div class="ui-btn outline" style="border-color:#828E5C;color:#4D6B20;">Button</div>
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem;">
+      <div class="img-frame img-wide">
+        <div class="img-frame-icon">↑</div>
+        <strong>Full style tile — original Figma document</strong>
+        <div class="img-note">Add a screenshot of your complete style tile here. Recommended: 1400×600px landscape</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 1 -->
+<section id="project1" class="bg-parchment">
+  <div class="container">
+    <div class="project-header">
+      <div class="project-number">01</div>
+      <div>
+        <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Narrative Platform Proposal</span></div>
+        <div class="section-title">Developing the World</div>
+      </div>
+    </div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+    <div class="meta-strip">
+      <span class="meta-chip">January 2026</span><span class="meta-chip">Narrative Design</span><span class="meta-chip">Character Development</span><span class="meta-chip">Project Management Plan</span>
+    </div>
+    <div class="project-grid">
+      <div class="project-text">
+        <p>Project 1 asked us to pitch, research, and fully plan our interactive narrative. After a group vote on source myths, Pandora's Box was selected. We adapted it to shift focus from punishment to personal agency: instead of unleashing chaos, Flora faces the choice of whether to help a manipulative spirit escape — ultimately refusing and discovering her own inner hope.</p>
+        <p>The narrative arc was mapped as a classic structure: Flora's job loss as the hook, Mord's offer as the inciting incident, three time-period encounters as rising action, the VR climax as the turning point, and her renewed confidence as resolution. Characters were defined in full — Flora, Mord, and four Keepers across the 1800s, 1900s, 2000s, and present day, each guarding one letter of H-O-P-E.</p>
+        <p>The Project Management Plan produced a RACI chart, Gantt chart, risk assessment, individual and group skills assessments, a signed group contract, and defined KPIs measuring audience engagement, story fragment discovery, interaction participation, emotional understanding, and sense of choice.</p>
+
+        <div class="ai-proof">
+          <div class="ai-proof-header">
+            <span class="ai-badge">AI — P1</span>
+            <span class="ai-proof-title">ChatGPT: Narrative Structure Consultation</span>
+          </div>
+          <div class="ai-io">
+            <div class="ai-input">
+              <div class="ai-io-label">Prompt</div>
+              <p>How can we reinterpret Pandora's Box so the focus shifts from consequence and punishment to personal agency? Our protagonist needs to feel genuinely susceptible to manipulation rather than naive for plot convenience.</p>
+            </div>
+            <div class="ai-output">
+              <div class="ai-io-label">What Changed</div>
+              <p>Reframed Mord's manipulation to mirror Pandora's temptation — he offers a wish rather than opens a box. Flora's susceptibility became emotional (grieving a job loss) rather than a plot device, making her arc from vulnerability to self-realization feel earned rather than scripted.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tag-row">
+          <span class="tag">Pandora's Box</span><span class="tag">Narrative Arc</span><span class="tag">Character Design</span><span class="tag">RACI</span><span class="tag">Risk Assessment</span><span class="tag">Group Contract</span>
+        </div>
+      </div>
+      <div>
+        <div class="img-frame">
+          <div class="img-frame-icon">↑</div>
+          <strong>Narrative arc / emotion timeline diagram</strong>
+          <div class="img-note">Add your P1 narrative arc diagram or emotion map. Recommended: 1200×900px</div>
+        </div>
+        <div class="img-grid">
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>Flora &amp; Mord initial sketches</strong>
+            <div class="img-note">First character designs from P1</div>
+          </div>
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>Story workshop exercise</strong>
+            <div class="img-note">Character value mapping or myth adaptation notes</div>
+          </div>
+        </div>
+        <!-- P1 submission deliverables -->
+        <div style="margin-top:0.55rem;">
+          <div class="img-frame img-landscape">
+            <div class="img-frame-icon">↑</div>
+            <strong>Project 1 submission — presentation deck cover slide</strong>
+            <div class="img-note">Screenshot of your P1 slide deck or proposal document cover. Recommended: 1200×800px</div>
+          </div>
+        </div>
+        <div class="img-grid" style="margin-top:0.55rem;">
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>RACI chart</strong>
+            <div class="img-note">Screenshot of your full RACI chart from the P1 management plan</div>
+          </div>
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>Group contract</strong>
+            <div class="img-note">Screenshot of the signed group contract submitted with P1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 2 -->
+<section id="project2" class="bg-pale">
+  <div class="container">
+    <div class="project-header">
+      <div class="project-number">02</div>
+      <div>
+        <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Mapping the Interactive Experience</span></div>
+        <div class="section-title">Building Across All Platforms</div>
+      </div>
+    </div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+    <div class="meta-strip">
+      <span class="meta-chip">February – March 2026</span><span class="meta-chip">Unity → Lens Studio</span><span class="meta-chip">3D Printing</span><span class="meta-chip">Museum Poster</span><span class="meta-chip">Instagram</span><span class="meta-chip">ProtoPie</span>
+    </div>
+    <div class="project-grid flip">
+      <div class="project-text">
+        <p>Project 2 was a simultaneous development sprint across all four platforms. Brandon began AR prototyping in Unity, but user testing flagged texture pops and inconsistent lighting — the executive decision was made to pivot to Snap Lens Studio. The VR map was built in Unity for Oculus Rift S, redesigned after testing to feel grander, with a central open space and Mord's coffin as the focal point.</p>
+        <p>Kristen researched major 19th century innovations, wrote riddles in three difficulty tiers, user-tested them for clarity and flow, and constructed three treasure boxes with colour-coded locks and 3D-printed horse puzzle pieces that hide letter codes on their backs. Olivia explored four poster concept directions, user-tested all four, and selected the curiosity strategy — Mord's clawed shadow reaching across vintage frames with Flora's silhouette as centrepiece. Minh launched @kombmuseum on Instagram and wireframed the guiding app in ProtoPie, mapping the full campus journey through the experience.</p>
+
+        <!-- INSTAGRAM EVIDENCE -->
+        <div style="margin-top:1.75rem;">
+          <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);font-weight:500;margin-bottom:0.5rem;">@kombmuseum — Instagram Evidence</p>
+          <div class="insta-handle">@kombmuseum</div>
+          <div class="insta-grid">
+            <div class="insta-post">
+              <div class="img-frame-icon" style="width:28px;height:28px;font-size:0.7rem;">↑</div>
+              <div class="insta-post-caption">"Some things were never lost, only waiting."</div>
+            </div>
+            <div class="insta-post">
+              <div class="img-frame-icon" style="width:28px;height:28px;font-size:0.7rem;">↑</div>
+              <div class="insta-post-caption">"Every choice leaves something behind."</div>
+            </div>
+            <div class="insta-post">
+              <div class="img-frame-icon" style="width:28px;height:28px;font-size:0.7rem;">↑</div>
+              <div class="insta-post-caption">"Not everything is whole at first glance."</div>
+            </div>
+            <div class="insta-post">
+              <div class="img-frame-icon" style="width:28px;height:28px;font-size:0.7rem;">↑</div>
+              <div class="insta-post-caption">"It starts with a question you can't ignore."</div>
+            </div>
+          </div>
+          <p style="font-size:0.72rem;color:var(--text-mid);margin-top:0.65rem;font-style:italic;">Eight posts published across the semester. Each introduced a character or theme using mystery-driven captions. QR code and link in bio directed users to the guiding app. Add screenshots of the actual @kombmuseum account above.</p>
+        </div>
+
+        <div class="ai-proof" style="margin-top:1.5rem;">
+          <div class="ai-proof-header">
+            <span class="ai-badge">AI — P2</span>
+            <span class="ai-proof-title">ChatGPT: Script Tone + Unity Pipeline Debug</span>
+          </div>
+          <div class="ai-io">
+            <div class="ai-input">
+              <div class="ai-io-label">Prompt (Script)</div>
+              <p>Here is Mord's AR dialogue. User testing said it sounds "like a superhero" — can you revise it to feel more menacing and subtle, less one-liner, more manipulative?</p>
+            </div>
+            <div class="ai-output">
+              <div class="ai-io-label">What Changed</div>
+              <p>Mord's lines were rewritten to remove dramatic one-liners. New dialogue references Flora's personal situation directly, making him feel like he knows her rather than performing villainy. Tested again — users no longer broke immersion.</p>
+            </div>
+          </div>
+          <div class="ai-io" style="margin-top:0.75rem;">
+            <div class="ai-input">
+              <div class="ai-io-label">Prompt (Pipeline)</div>
+              <p>After switching from HDRP to URP in Unity, all our textures turned pink. Here is the error log — what's causing this and how do we fix it?</p>
+            </div>
+            <div class="ai-output">
+              <div class="ai-io-label">What Changed</div>
+              <p>ChatGPT identified a missing shader conversion step — HDRP materials don't automatically convert to URP. Provided a step-by-step fix. Textures restored. Saved approximately 2 days of debugging.</p>
+            </div>
+          </div>
+          <div class="ai-screenshot">
+            <div class="img-frame" style="aspect-ratio:16/5;">
+              <div class="img-frame-icon">↑</div>
+              <strong>ChatGPT conversation screenshot — dialogue revision or pipeline fix</strong>
+              <div class="img-note">Add a screenshot showing the actual AI exchange. This is your evidence of AI use. Recommended: 1400×440px</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tag-row">
+          <span class="tag">Lens Studio Pivot</span><span class="tag">Unity VR</span><span class="tag">3D Printing</span><span class="tag">Poster (4 concepts tested)</span><span class="tag">ProtoPie</span><span class="tag">Campus Integration</span><span class="tag">Instagram × 8 posts</span>
+        </div>
+      </div>
+      <div>
+        <div class="img-frame">
+          <div class="img-frame-icon">↑</div>
+          <strong>Museum poster — final version</strong>
+          <div class="img-note">Add final poster (print or Instagram version). Recommended: 900×1200px portrait</div>
+        </div>
+        <div class="img-grid">
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>1800s riddle boxes</strong>
+            <div class="img-note">Photo of 3 boxes with colour-coded locks</div>
+          </div>
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>AR / VR development</strong>
+            <div class="img-note">Lens Studio or Unity screenshot</div>
+          </div>
+        </div>
+        <div style="margin-top:0.55rem;">
+          <div class="img-frame img-landscape">
+            <div class="img-frame-icon">↑</div>
+            <strong>Poster concept exploration — all four directions</strong>
+            <div class="img-note">Add the four concept direction sketches or the user testing session. Recommended: 1200×800px</div>
+          </div>
+        </div>
+        <!-- P2 submission deliverables -->
+        <div class="img-grid" style="margin-top:0.55rem;">
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>Campus integration map</strong>
+            <div class="img-note">Your mapped path: Marquee → Learning Commons → Library → VR station</div>
+          </div>
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>User flow diagram</strong>
+            <div class="img-note">The full P2 user flow showing audience journey through platforms</div>
+          </div>
+        </div>
+        <div class="img-grid" style="margin-top:0.55rem;">
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>App wireframes — ProtoPie</strong>
+            <div class="img-note">Medium-fidelity wireframe screens from P2 app development</div>
+          </div>
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>3D print file — horse puzzle</strong>
+            <div class="img-note">Screenshot of the 3D model/slicer file before printing</div>
+          </div>
+        </div>
+        <div style="margin-top:0.55rem;">
+          <div class="img-frame img-landscape">
+            <div class="img-frame-icon">↑</div>
+            <strong>Gantt chart update — P2 phase</strong>
+            <div class="img-note">Screenshot of the Gantt chart as submitted with Project 2. Recommended: 1200×500px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT 3 -->
+<section id="project3" class="bg-parchment">
+  <div class="container">
+    <div class="project-header">
+      <div class="project-number">03</div>
+      <div>
+        <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Cognitive Walkthrough</span></div>
+        <div class="section-title">Finalizing Every Platform</div>
+      </div>
+    </div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+    <div class="meta-strip">
+      <span class="meta-chip">March – April 2026</span><span class="meta-chip">Lens Studio JS</span><span class="meta-chip">Unity C# / Oculus Rift S</span><span class="meta-chip">Paralympic Medal</span><span class="meta-chip">QR Envelope</span><span class="meta-chip">App Rebuild</span>
+    </div>
+    <div class="project-grid">
+      <div class="project-text">
+        <p>Project 3 was a focused sprint of completion and refinement. Brandon rebuilt the Lens Studio AR from scratch in JavaScript — the in-house AI tool generated a baseline that was scrapped for being too rigid. The final experience has Mord speaking through touch-triggered dialogue, shrinking to signal completion, with a single Snapcode replacing the confusing two-step scan. The Unity VR received a full dialogue rewrite, updated lighting, new collectible letters that hover and vanish on contact triggering Flora's inner thoughts, and fixed-interval teleportation to address motion sickness. The locomotion system was fully rebuilt after the custom code proved incompatible with Oculus Rift S.</p>
+        <p>Kristen added the 3D-printed horse puzzles to the riddle boxes and hand-painted the Paralympic medal — tracing a real reference on iPad, projecting to determine shading, and painting on cardboard, adding a paint-marker ribbon for the scavenger hunt. Olivia built the interactive QR envelope (users manually open it to reveal the soldier's letter) and rebuilt the guiding app entirely after testing revealed font, image, and navigation failures. Adobe Firefly finalized the three Keeper character illustrations from Olivia's own sketches.</p>
+
+        <div class="ai-proof">
+          <div class="ai-proof-header">
+            <span class="ai-badge">AI — P3</span>
+            <span class="ai-proof-title">Claude: C# Debug + App Build / Firefly: Character Finalization</span>
+          </div>
+          <div class="ai-io">
+            <div class="ai-input">
+              <div class="ai-io-label">Prompt (VR — Brandon)</div>
+              <p>Here is my C# snap-turn script for Oculus Rift S. The rotation isn't triggering on the right joystick. Can you identify what's wrong with the input detection logic and explain why?</p>
+            </div>
+            <div class="ai-output">
+              <div class="ai-io-label">What Changed</div>
+              <p>Claude identified a missing input axis name in the XR Input Subsystem — the joystick wasn't mapped correctly. Fixed the snap-turn logic and explained the XR input architecture so Brandon could debug future issues independently.</p>
+            </div>
+          </div>
+          <div class="ai-io" style="margin-top:0.75rem;">
+            <div class="ai-input">
+              <div class="ai-io-label">Prompt (App — Olivia)</div>
+              <p>Here is our style tile and the user flow for the guiding app. Build the coded screens for these five flows: Welcome, Activity 1 (1800s riddle boxes), Activity 2 (soldier's letter), Activity 3 (Paralympic medal), and Completion. Include a back button on every screen.</p>
+            </div>
+            <div class="ai-output">
+              <div class="ai-io-label">What Changed</div>
+              <p>Claude generated five fully structured app screens based on the style tile inputs. This replaced the ProtoPie wireframe entirely and let Olivia focus on content accuracy and accessibility testing rather than building from scratch.</p>
+            </div>
+          </div>
+          <div class="ai-screenshot">
+            <div class="img-grid" style="margin-top:0.75rem;">
+              <div class="img-frame" style="aspect-ratio:4/3;">
+                <div class="img-frame-icon">↑</div>
+                <strong>Claude AI conversation screenshot</strong>
+                <div class="img-note">Add screenshot of the C# debug or app build exchange with Claude. Key evidence of AI use.</div>
+              </div>
+              <div class="img-frame" style="aspect-ratio:4/3;">
+                <div class="img-frame-icon">↑</div>
+                <strong>Firefly: sketch vs. output</strong>
+                <div class="img-note">Side-by-side of Olivia's hand sketch and the Firefly-generated character. Shows AI input → output clearly.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="evidence-row">
+          <div class="evidence-card"><h4>AR — Completed</h4><p>Single Snapcode. Touch-triggered dialogue. Shrinks on completion. 3 user tests, 2 design revisions.</p></div>
+          <div class="evidence-card"><h4>VR — Completed</h4><p>Snap-turn rotation. Collectible letters. Rebuilt locomotion. Full dialogue rewrite. 2 user tests.</p></div>
+          <div class="evidence-card"><h4>All Artifacts Done</h4><p>Horse puzzle boxes. Hand-painted medal + ribbon. Interactive QR envelope. App rebuilt post-testing.</p></div>
+        </div>
+
+        <div class="tag-row" style="margin-top:1.2rem;">
+          <span class="tag">Claude AI (C#)</span><span class="tag">Claude AI (app)</span><span class="tag">Adobe Firefly</span><span class="tag">Lens Studio JS</span><span class="tag">Cognitive Walkthrough</span>
+        </div>
+      </div>
+      <div>
+        <div class="img-frame">
+          <div class="img-frame-icon">↑</div>
+          <strong>Completed AR experience</strong>
+          <div class="img-note">Final Lens Studio screenshot — Mord in AR. Recommended: 1200×675px</div>
+        </div>
+        <div class="img-grid">
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>Hand-painted Paralympic medal</strong>
+            <div class="img-note">Photo of the finished artifact with ribbon</div>
+          </div>
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>App — before &amp; after testing</strong>
+            <div class="img-note">Pre/post testing screen comparison</div>
+          </div>
+        </div>
+        <div style="margin-top:0.55rem;">
+          <div class="img-frame img-landscape">
+            <div class="img-frame-icon">↑</div>
+            <strong>VR experience — final Unity screenshot</strong>
+            <div class="img-note">Show the grand museum space with collectible letters visible. Recommended: 1200×800px</div>
+          </div>
+        </div>
+        <!-- P3 submission deliverables -->
+        <div class="img-grid" style="margin-top:0.55rem;">
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>Storyboard — walkthrough video</strong>
+            <div class="img-note">Photo or scan of the storyboard created in Week 12 for filming</div>
+          </div>
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>Campus place photos</strong>
+            <div class="img-note">Photos taken during the Week 10 campus walkthrough confirming each station</div>
+          </div>
+        </div>
+        <div class="img-grid" style="margin-top:0.55rem;">
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>Soldier's letter — before &amp; after</strong>
+            <div class="img-note">QR envelope design iterations — plain vs. final aged version with crinkle texture</div>
+          </div>
+          <div class="img-frame">
+            <div class="img-frame-icon">↑</div>
+            <strong>AR experience — Snapcode in use</strong>
+            <div class="img-note">Photo of a user scanning the Snapcode on the museum poster in the Marquee</div>
+          </div>
+        </div>
+        <div style="margin-top:0.55rem;">
+          <div class="img-frame img-landscape">
+            <div class="img-frame-icon">↑</div>
+            <strong>Gantt chart update — P3 / final phase</strong>
+            <div class="img-note">Screenshot of the Gantt as submitted with Project 3. Recommended: 1200×500px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ -->
+<!-- USER TESTING — DEDICATED SECTION   -->
+<!-- ═══════════════════════════════════ -->
+<section id="testing" class="bg-deep">
+  <div class="container">
+    <div class="exhibit-label"><div class="el-line" style="background:var(--gold);"></div><span class="el-text" style="color:rgba(201,168,76,0.65);">Evidence of Process</span></div>
+    <div class="section-title light">User Testing</div>
+    <div class="ornament"><div class="orn-line" style="background:var(--gold);opacity:0.4;"></div><div class="orn-dia"></div><div class="orn-line2" style="background:var(--gold);opacity:0.22;"></div></div>
+    <p class="section-intro" style="color:rgba(245,237,216,0.6);">All user testing conducted across Projects 2 and 3, organized by platform and session. Every finding is paired with the specific design response it produced.</p>
+
+    <!-- PROJECT 2 TESTING -->
+    <div class="testing-project-block">
+      <div class="testing-project-header">
+        <div class="testing-project-num">02</div>
+        <div>
+          <div class="testing-project-title">Project 2 — In-Development Testing</div>
+          <div class="testing-project-sub">Prototypes tested across all four platforms mid-development</div>
+        </div>
+      </div>
+
+      <!-- AR -->
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-ar"></div>
+          <span class="platform-name">Augmented Reality — Unity Prototype</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1 — Experienced Unity User</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">Texture pops and inconsistent lighting break the illusion — you need consistent post-processing across the whole scene.</div>
+            <div class="test-solution"><strong>Solution:</strong> Pivoted entirely to Lens Studio. Re-examined all textures, adjusted render pipeline, deferred post-processing to the same phase as interaction development.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2 — Same User</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">The object hierarchy is unoptimized — running this on a headset with limited hardware will be a problem.</div>
+            <div class="test-solution"><strong>Solution:</strong> Grouped and combined polygons to reduce draw calls. Kept post-processing minimal. Decision to stay on Lens Studio confirmed as the more optimized path.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VR -->
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-vr"></div>
+          <span class="platform-name">Virtual Reality — Unity Environment</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">Flora is speaking like a superhero — it's not really relatable.</div>
+            <div class="test-solution"><strong>Solution:</strong> Script rewritten to reduce one-liners. References to past NPCs made more naturalistic. ChatGPT consulted to help revise tone toward subtle manipulation rather than theatrical villainy.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">This doesn't have a climactic feel to it. I want something bigger.</div>
+            <div class="test-solution"><strong>Solution:</strong> Map redesigned with a large empty central space. Mord's coffin placed at the focal point. Empty space reserved for interactive H-O-P-E fragment slots.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHYSICAL -->
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-ph"></div>
+          <span class="platform-name">Physical — 1800s Riddle Boxes</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1 — Riddle Clarity</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">Not sure if the answer should be a year or a number code.</div>
+            <div class="test-solution"><strong>Solution:</strong> Added instructions explaining that each riddle produces a three-digit code. First riddle kept slightly easier to build user momentum before increasing difficulty.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2 — Flow</span><span class="test-badge tb-resolved">Resolved</span></div>
+            <div class="test-quote">Early progress helped me understand the puzzle system. I like how you don't know which lock opens with which code.</div>
+            <div class="test-solution"><strong>Kept:</strong> Ambiguous lock-box pairing retained as intentional tension. Activity confirmed to take 7–10 minutes — within the target range.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 3 — Engagement</span><span class="test-badge tb-resolved">Resolved</span></div>
+            <div class="test-quote">Theme made the puzzle feel like a story instead of just solving random riddles. The old paper adds detail.</div>
+            <div class="test-solution"><strong>Kept:</strong> Historical clues and aged materials retained. Attention to detail confirmed as paying off in user experience.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 4 — Difficulty</span><span class="test-badge tb-resolved">Resolved</span></div>
+            <div class="test-quote">Good balance between challenging and solvable. Riddles should be hard but still fair.</div>
+            <div class="test-solution"><strong>Kept:</strong> Moderate difficulty maintained. Confirmed that easy → medium → hard progression keeps engagement without causing frustration.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIGITAL P2 -->
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-di"></div>
+          <span class="platform-name">Digital — Museum Poster</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1 — Concept Testing (4 directions)</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">The background pattern feels too busy. The centrepiece frame is too bright — it doesn't match the vintage atmosphere.</div>
+            <div class="test-solution"><strong>Solution:</strong> Style 2 (curiosity strategy) selected. Background simplified. Frame darkened to match aged museum aesthetic. Mord's clawed shadow added for narrative tension.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2 — Sketch Testing</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">The title typography feels too formal. The silhouette needs stronger visual emphasis as the focal point.</div>
+            <div class="test-solution"><strong>Solution:</strong> Title style updated to match the story's mysterious tone. Flora's silhouette made the dominant centrepiece. QR code added with a clear "Take a closer look" CTA.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-di"></div>
+          <span class="platform-name">Digital — Guiding App (ProtoPie)</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1 — Visual Components</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">The main title font is hard to read on a small screen. The start button could stand out more.</div>
+            <div class="test-solution"><strong>Solution:</strong> Flagged need for a more readable font at phone size. Button sizing and visual hierarchy added to the list for ProtoPie iteration.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2 — Navigation</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">I understand there are three activities, but I'm unsure how they connect to the story.</div>
+            <div class="test-solution"><strong>Solution:</strong> Descriptive instructions added to each activity screen. Progress indicator planned so users know how far through the experience they are.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 3 TESTING -->
+    <div class="testing-project-block">
+      <div class="testing-project-header">
+        <div class="testing-project-num">03</div>
+        <div>
+          <div class="testing-project-title">Project 3 — Cognitive Walkthroughs</div>
+          <div class="testing-project-sub">Final testing across all completed platforms before submission</div>
+        </div>
+      </div>
+
+      <!-- AR P3 -->
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-ar"></div>
+          <span class="platform-name">Augmented Reality — Lens Studio (Completed)</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1 — Conclusion Clarity</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">When does it end? I didn't know the experience was finished.</div>
+            <div class="test-solution"><strong>Solution:</strong> Mord now shrinks and disappears upon touch completion. App prompt added to clearly signal transition to the next campus station.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2 — Scan Flow</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">Which one do I point the camera at? The code, and then the image?</div>
+            <div class="test-solution"><strong>Solution:</strong> Streamlined to a single Snapcode trigger. Target image integrated directly into the Snapcode for clarity. Two-step scan flow eliminated entirely.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VR P3 -->
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-vr"></div>
+          <span class="platform-name">Virtual Reality — Unity / Oculus Rift S (Completed)</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1 — Motion Sickness</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">Left and right rotation makes me feel sick.</div>
+            <div class="test-solution"><strong>Solution:</strong> Replaced smooth rotation with fixed-interval teleportation snap-turn using C# scripting. Claude AI was consulted to implement the input detection logic correctly.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2 — Collectibles</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">What are these letters for? Is it referring to the artifacts?</div>
+            <div class="test-solution"><strong>Solution:</strong> Letters now hover visibly and disappear on user contact using C# script, giving a clear "collectible" feel. Collection triggers Flora's inner thoughts in the UI.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHYSICAL P3 -->
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-ph"></div>
+          <span class="platform-name">Physical — Final Artifact Testing</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1 — Riddle Box Sequence</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">I was confused after opening the first box — I needed more explanation on what to do next.</div>
+            <div class="test-solution"><strong>Solution:</strong> App instructions updated so users know exactly what they're looking for at each step. Puzzle pieces confirmed to be in the correct boxes under the grass layer.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 1 — Medal Scavenger Hunt</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">I wasn't sure what I was looking for at the start. But the ribbon was a clever thing to collect.</div>
+            <div class="test-solution"><strong>Solution:</strong> App updated to specify that users are looking for a ribbon for a gold medal. Building names added as hints for new campus visitors without removing the I-spy challenge.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2 — QR Letter</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">Before the envelope interaction, it looked like a plain QR code. I might have missed it entirely.</div>
+            <div class="test-solution"><strong>Solution:</strong> Added a short instruction sentence to the QR print. Applied crinkle texture and aged colouring to physically resemble a letter hidden in a book for decades.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Test 2 — Letter Content</span><span class="test-badge tb-resolved">Resolved</span></div>
+            <div class="test-quote">The cursive font is extremely hard to read at this size.</div>
+            <div class="test-solution"><strong>Solution:</strong> Cursive replaced with italicized sans-serif — mimics the handwritten feel while remaining legible. Text size increased after testing confirmed it was straining users' eyes.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIGITAL P3 -->
+      <div class="platform-block">
+        <div class="platform-label">
+          <div class="platform-dot pd-di"></div>
+          <span class="platform-name">Digital — Guiding App (Rebuilt) + Poster Final</span>
+        </div>
+        <div class="test-grid">
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">App Test 1 — Images &amp; Navigation</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">Images have a black background that takes focus away from the character. I can't go backwards — I have to restart the whole experience.</div>
+            <div class="test-solution"><strong>Solution:</strong> All images re-exported as PNG for transparent backgrounds. Back button added to every screen. Font switched from Instrument Serif to a more readable alternative.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">App Test 2 — Colour</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">The red colour feels too serious and intimidating — like an error.</div>
+            <div class="test-solution"><strong>Solution:</strong> Red replaced with orange across all app screens. Character images enlarged. Colour palette brought into alignment with the first flow throughout.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Poster Test 1 — Hierarchy</span><span class="test-badge tb-finding">Finding</span></div>
+            <div class="test-quote">The QR code is visible but its purpose isn't clear. I didn't know what action to take.</div>
+            <div class="test-solution"><strong>Solution:</strong> CTA replaced with "Take a closer look" beside the QR code. Title enlarged. Text spacing improved for readability. Visual hierarchy strengthened to guide the eye from title → portrait → CTA → QR.</div>
+          </div>
+          <div class="test-card">
+            <div class="test-card-top"><span class="test-round">Poster Test 1 — Messaging</span><span class="test-badge tb-resolved">Resolved</span></div>
+            <div class="test-quote">The poster is eye-catching but the message wasn't immediately clear at first glance.</div>
+            <div class="test-solution"><strong>Solution:</strong> Messaging simplified and clarified. Centre frame kept as the main visual anchor. Contrast between text and textured background increased for legibility at distance.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT MANAGEMENT -->
+<section id="management" class="bg-parchment">
+  <div class="container">
+    <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Curatorial Operations</span></div>
+    <div class="section-title">Project Management</div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+    <p class="section-intro">Minh served as project manager across all three projects, using a Gantt chart, RACI chart, twice-weekly standups, and a signed group contract to keep four simultaneous platforms on track through a compressed semester timeline.</p>
+
+    <div class="pm-grid">
+      <div class="exhibit-card"><div class="ec-label">Step 1</div><h3>Project Planning</h3><p>Minh reviewed each project rubric, identified the major stages, and mapped them to the Gantt chart so the team could see the full semester arc at a glance.</p></div>
+      <div class="exhibit-card"><div class="ec-label">Step 2</div><h3>Task Breakdown</h3><p>With four platforms developing simultaneously, tasks were broken into smaller units per member so no platform fell behind before user testing windows.</p></div>
+      <div class="exhibit-card"><div class="ec-label">Step 3</div><h3>Role Assignment</h3><p>Brandon: AR/VR. Kristen: physical artifacts and user testing oversight. Olivia: illustration and digital artifacts. Minh: PM and digital platforms. Collaboration expected — primary roles didn't mean exclusive ownership.</p></div>
+      <div class="exhibit-card"><div class="ec-label">Step 4</div><h3>Timeline Organization</h3><p>Submission deadlines and reading week anchored first, then tasks layered in reverse. Overlapping tasks planned side-by-side so bottlenecks could be spotted early.</p></div>
+      <div class="exhibit-card"><div class="ec-label">Step 5</div><h3>Progress Tracking</h3><p>Two meetings per week in P1 and P2 — one in-person standup (15–20 min) and one online check-in (15 min). Gantt updated live. In P3, a third feedback-review meeting was added.</p></div>
+      <div class="exhibit-card"><div class="ec-label">Step 6</div><h3>Quality Assurance</h3><p>In P3, Minh reviewed script clarity, app navigation, puzzle difficulty, and visual consistency across all deliverables before final submission.</p></div>
+    </div>
+
+    <div class="meeting-row">
+      <div class="exhibit-card"><div class="ec-label">Meeting 1 — Weekly</div><h3>In-Person Standup</h3><p>15–20 minutes during class. Each member shares progress and flags blockers. Gantt chart updated in real time. Keeps everyone accountable.</p></div>
+      <div class="exhibit-card"><div class="ec-label">Meeting 2 — Weekly</div><h3>Online Check-in</h3><p>15 minutes end-of-week. Quick alignment on completions and what needs adjusting. Lightweight to avoid meeting fatigue.</p></div>
+      <div class="exhibit-card"><div class="ec-label">Meeting 3 — P3 Only</div><h3>Feedback Review</h3><p>Added in Project 3. Dedicated to reviewing all outputs for quality, consistency, and submission readiness before the deadline.</p></div>
+    </div>
+
+    <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);font-weight:500;margin-bottom:0.5rem;">RACI Chart</p>
+    <p style="font-size:0.78rem;color:var(--text-mid);margin-bottom:1rem;">R = Responsible &nbsp;·&nbsp; A = Accountable &nbsp;·&nbsp; C = Consulted &nbsp;·&nbsp; I = Informed</p>
+    <table class="raci-table">
+      <thead><tr><th style="width:30%;">Component</th><th>Kristen</th><th>Olivia</th><th>Minh</th><th>Brandon</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AR Experience</strong></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td></tr>
+        <tr><td><strong>VR Experience</strong></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td></tr>
+        <tr><td><strong>1800s Riddle Boxes</strong></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td><strong>Paralympic Medal</strong></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td><strong>Soldier's Letter / QR Envelope</strong></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td><strong>Museum Poster</strong></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-r">R</span></td><td><span class="rb rb-a">A</span> <span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td><strong>Guiding App</strong></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td><strong>Instagram @kombmuseum</strong></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td><strong>Character Illustration</strong></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td><strong>User Testing Oversight</strong></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-c">C</span></td></tr>
+        <tr><td><strong>Gantt Chart &amp; PM</strong></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-i">I</span></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-i">I</span></td></tr>
+        <tr><td><strong>Documentation Site (P4)</strong></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-c">C</span></td><td><span class="rb rb-r">R</span> <span class="rb rb-a">A</span></td><td><span class="rb rb-c">C</span></td></tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:1.75rem;">
+      <div class="img-frame img-wide">
+        <div class="img-frame-icon">↑</div>
+        <strong>Full Gantt chart — complete semester overview</strong>
+        <div class="img-note">Add your Gantt chart screenshot. Recommended: 1400×440px landscape</div>
+      </div>
+      <!-- Management supporting docs -->
+      <div class="img-grid" style="margin-top:0.6rem;">
+        <div class="img-frame">
+          <div class="img-frame-icon">↑</div>
+          <strong>Risk assessment</strong>
+          <div class="img-note">Screenshot of your risk assessment table submitted with P1</div>
+        </div>
+        <div class="img-frame">
+          <div class="img-frame-icon">↑</div>
+          <strong>Skills assessment — group</strong>
+          <div class="img-note">Screenshot of the group skills assessment grid from P1</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div style="margin-top:5rem;">
+      <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Week by Week</span></div>
+      <div class="section-title" style="font-size:2rem;">Semester Timeline</div>
+      <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+      <div class="timeline">
+        <div class="tl-phase">
+          <div class="tl-phase-label">January 2026 — Project 1</div>
+          <div class="tl-week"><div class="tl-wn">W1</div><div class="tl-card"><div class="tl-title">Group Formation &amp; Skills Assessment</div><div class="tl-desc">KOMB established from initials. Individual and group skills assessments submitted. Roles discussed based on each member's strengths.</div><div class="tl-tags"><span class="tl-tag tt-mg">Team Formation</span><span class="tl-tag tt-mg">Skills Assessment</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W2</div><div class="tl-card"><div class="tl-title">Myth Selection &amp; Story Workshops</div><div class="tl-desc">Group vote selected Pandora's Box. Story workshops: character value mapping, contemporary reinterpretation, colour palette direction named after Flora. ChatGPT consulted on narrative framing.</div><div class="tl-tags"><span class="tl-tag tt-di">Pandora's Box</span><span class="tl-tag tt-mg">Story Workshop</span><span class="tl-tag tt-di">Style Tile Begun</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W3</div><div class="tl-card"><div class="tl-title">Narrative Arc, Characters &amp; Platform Planning</div><div class="tl-desc">Full narrative arc mapped. Flora, Mord, and H/O/P/E Keepers defined across four eras. All four platforms planned: AR (intro), VR (climax), physical (rising action), digital (guiding and promotion).</div><div class="tl-tags"><span class="tl-tag tt-di">Narrative Arc</span><span class="tl-tag tt-di">Character Design</span><span class="tl-tag tt-ar">AR Planned</span><span class="tl-tag tt-vr">VR Planned</span><span class="tl-tag tt-ph">Physical Planned</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W4</div><div class="tl-card"><div class="tl-title">Project Management Plan &amp; P1 Submission</div><div class="tl-desc">RACI chart, Gantt chart, risk assessment, group contract, skills assessments, and KPIs completed. Project 1 submitted.</div><div class="tl-tags"><span class="tl-tag tt-mg">RACI</span><span class="tl-tag tt-mg">Gantt</span><span class="tl-tag tt-mg">Group Contract</span><span class="tl-tag tt-ms">P1 Submitted</span></div></div></div>
+        </div>
+        <div class="tl-phase">
+          <div class="tl-phase-label">February 2026 — Project 2 Begins</div>
+          <div class="tl-week"><div class="tl-wn">W5</div><div class="tl-card"><div class="tl-title">AR Prototyping + Physical Research + Instagram Live</div><div class="tl-desc">Brandon starts Unity AR. Kristen researches 19th century innovations. @kombmuseum goes live. First Instagram posts published.</div><div class="tl-tags"><span class="tl-tag tt-ar">Unity AR</span><span class="tl-tag tt-ph">1800s Research</span><span class="tl-tag tt-di">Instagram Live</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W6</div><div class="tl-card"><div class="tl-title">AR User Test + VR Environment + Poster Concepts</div><div class="tl-desc">AR tested — texture and hierarchy issues flagged. Pivot to Lens Studio decided. VR map begun. Olivia develops four poster directions. ChatGPT consulted on Mord's dialogue tone.</div><div class="tl-tags"><span class="tl-tag tt-ar">Lens Studio Pivot</span><span class="tl-tag tt-vr">VR Map</span><span class="tl-tag tt-di">Poster Concepts</span><span class="tl-tag tt-di">AI: Script Feedback</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W7</div><div class="tl-card"><div class="tl-title">Riddle Writing + Poster User Testing + App Wireframes</div><div class="tl-desc">Kristen writes and tests three riddle tiers. Poster user tested across all four concepts — curiosity strategy selected. Olivia begins poster sketches. Minh wireframes app in ProtoPie. Character designs updated.</div><div class="tl-tags"><span class="tl-tag tt-ph">Riddle Design</span><span class="tl-tag tt-di">Poster Tested</span><span class="tl-tag tt-di">App Wireframes</span></div></div></div>
+        </div>
+        <div class="tl-phase">
+          <div class="tl-phase-label">March 2026 — Project 2 Submission + Project 3 Begins</div>
+          <div class="tl-week"><div class="tl-wn">W8</div><div class="tl-card"><div class="tl-title">3D Printing + VR Script Test + Poster Refinement + Campus Map</div><div class="tl-desc">Horse puzzle designed and sent to print. VR user test: script cheesy, map not grand enough — both redesigned. Poster finalized. Campus path mapped: Marquee → Learning Commons → Library.</div><div class="tl-tags"><span class="tl-tag tt-ph">3D Print</span><span class="tl-tag tt-vr">VR Redesign</span><span class="tl-tag tt-di">Poster Final</span><span class="tl-tag tt-mg">Campus Map</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W9</div><div class="tl-card"><div class="tl-title">P2 Submission + HDRP → URP Crisis</div><div class="tl-desc">P2 submitted. Render pipeline switch breaks all VR textures. ChatGPT diagnoses and fixes the missing shader conversion. App tested — font and navigation issues flagged.</div><div class="tl-tags"><span class="tl-tag tt-ms">P2 Submitted</span><span class="tl-tag tt-vr">URP Fix (AI)</span><span class="tl-tag tt-di">App Tested</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W10</div><div class="tl-card"><div class="tl-title">Campus Walkthrough + Artifact Construction</div><div class="tl-desc">Full group photographs each campus station. Treasure boxes constructed. Horse puzzle printed and assembled. Olivia researches WWI letters for the soldier's letter design.</div><div class="tl-tags"><span class="tl-tag tt-mg">Campus Walkthrough</span><span class="tl-tag tt-ph">Boxes Built</span><span class="tl-tag tt-di">Letter Research</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W11</div><div class="tl-card"><div class="tl-title">AR Rebuild + VR Letters + Medal + App Overhaul</div><div class="tl-desc">Brandon rewrites Lens Studio in JS from scratch. VR collectible letters and snap-turn added using Claude AI for C# debugging. Medal painted. Olivia rebuilds app (Claude AI used for coded screens). Firefly finalizes Keeper characters from Olivia's sketches.</div><div class="tl-tags"><span class="tl-tag tt-ar">Lens Studio JS</span><span class="tl-tag tt-vr">C# (Claude AI)</span><span class="tl-tag tt-ph">Medal Painted</span><span class="tl-tag tt-di">App (Claude AI)</span><span class="tl-tag tt-di">Firefly Characters</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W12</div><div class="tl-card"><div class="tl-title">Full Run-Through + Storyboard + Filming</div><div class="tl-desc">Complete experience run end-to-end on campus. Issues resolved. Storyboard created for the walkthrough video. Filming begins. Medal ribbon added. QR envelope user tested and iterated.</div><div class="tl-tags"><span class="tl-tag tt-ms">Full Run-Through</span><span class="tl-tag tt-mg">Storyboard</span><span class="tl-tag tt-di">Filming</span><span class="tl-tag tt-ph">Ribbon Complete</span></div></div></div>
+        </div>
+        <div class="tl-phase">
+          <div class="tl-phase-label">April 2026 — Project 3 + Final Documentation</div>
+          <div class="tl-week"><div class="tl-wn">W13</div><div class="tl-card"><div class="tl-title">Cognitive Walkthroughs + Final Polish</div><div class="tl-desc">Cognitive walkthroughs across all platforms. AR scan flow simplified. VR snap-turn and collectibles confirmed. App, poster, and physical artifacts QA'd by Minh. Three meetings per week.</div><div class="tl-tags"><span class="tl-tag tt-mg">Cognitive Walkthrough</span><span class="tl-tag tt-ar">AR Final</span><span class="tl-tag tt-vr">VR Final</span><span class="tl-tag tt-ph">Physical Final</span><span class="tl-tag tt-di">Digital Final</span></div></div></div>
+          <div class="tl-week"><div class="tl-wn">W14</div><div class="tl-card"><div class="tl-title">P3 + P4 Final Submission</div><div class="tl-desc">P3 documentation submitted. P4 documentation website submitted. All process materials archived. Individual Process Reflections written. Final walkthrough video submitted. Semester complete.</div><div class="tl-tags"><span class="tl-tag tt-ms">P3 Submitted</span><span class="tl-tag tt-ms">P4 Submitted</span><span class="tl-tag tt-mg">Process Reflections</span><span class="tl-tag tt-ms">Complete</span></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video" class="bg-dark">
+  <div class="container">
+    <div class="exhibit-label"><div class="el-line" style="background:var(--gold);"></div><span class="el-text" style="color:rgba(201,168,76,0.65);">Final Deliverable</span></div>
+    <div class="section-title light">Walkthrough Documentation</div>
+    <div class="ornament"><div class="orn-line" style="background:var(--gold);opacity:0.38;"></div><div class="orn-dia"></div><div class="orn-line2" style="background:var(--gold);opacity:0.2;"></div></div>
+    <p class="section-intro" style="color:rgba(245,237,216,0.58);">A guided walkthrough of the complete experience — from the AR encounter at the Marquee, through the campus scavenger hunt, to the VR climax where Flora discovers her hope.</p>
+    <div class="video-frame">
+      <div class="vc tl"></div><div class="vc tr"></div><div class="vc bl"></div><div class="vc br"></div>
+      <!-- Replace this block: YouTube <iframe width="100%" height="100%" src="https://www.youtube.com/embed/YOUR_ID" frameborder="0" allowfullscreen></iframe> -->
+      <div class="video-play">▶</div>
+      <div style="text-align:center;">
+        <strong style="display:block;font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--parchment);font-weight:300;margin-bottom:0.3rem;">Final Walkthrough Video</strong>
+        <span style="font-size:0.76rem;color:rgba(201,168,76,0.45);font-style:italic;">Replace this block with your YouTube or Vimeo embed</span>
+      </div>
+    </div>
+    <div class="video-meta-row">
+      <div class="vmc"><div class="vmc-l">Duration</div><div class="vmc-v">20 – 45 min</div></div>
+      <div class="vmc"><div class="vmc-l">Platforms</div><div class="vmc-v">AR · VR · Physical · Digital</div></div>
+      <div class="vmc"><div class="vmc-l">Location</div><div class="vmc-v">Sheridan Trafalgar</div></div>
+      <div class="vmc"><div class="vmc-l">Submitted</div><div class="vmc-v">Week 14 · April 2026</div></div>
+    </div>
+    <!-- walkthrough supporting visuals -->
+    <div class="img-grid" style="margin-top:1.5rem;">
+      <div class="img-frame">
+        <div class="img-frame-icon">↑</div>
+        <strong>Walkthrough storyboard</strong>
+        <div class="img-note">Photo or scan of the storyboard used during Week 12 filming</div>
+      </div>
+      <div class="img-frame">
+        <div class="img-frame-icon">↑</div>
+        <strong>Behind the scenes — filming day</strong>
+        <div class="img-note">Photo from the campus filming session showing the team at work</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NARRATIVE STRUCTURE -->
+<section class="bg-pale">
+  <div class="container">
+    <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Experience Structure</span></div>
+    <div class="section-title">Navigating the Narrative</div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+    <div class="walk-steps">
+      <div class="walk-step"><div class="walk-num">1</div><div class="walk-title">AR Entry — The Marquee</div><div class="walk-desc">Users scan the Snapcode on the museum poster. Mord appears in Lens Studio AR, speaks through touch-triggered dialogue, and disappears — the app signals the transition to Station 2.</div></div>
+      <div class="walk-step"><div class="walk-num">2</div><div class="walk-title">Scavenger Hunt — Campus</div><div class="walk-desc">The guiding app leads users to three stations: 1800s riddle boxes (Learning Commons), 1900s soldier's QR envelope (library book), and 2000s Paralympic medal ribbon (I-spy across buildings).</div></div>
+      <div class="walk-step"><div class="walk-num">3</div><div class="walk-title">VR Climax — The Museum</div><div class="walk-desc">Users enter Oculus Rift S VR. Flora explores the museum, collects floating H-O-P-E letters that trigger her inner thoughts, then confronts Mord — refusing to hand over the final piece.</div></div>
+      <div class="walk-step"><div class="walk-num">4</div><div class="walk-title">Resolution</div><div class="walk-desc">Flora's inner thoughts surface in the VR UI. She recognizes that the hope she was chasing was always within herself. The narrative closes — Mord's fate revealed, Flora's growth complete.</div></div>
+    </div>
+    <div style="margin-top:3rem;">
+      <div class="img-frame" style="aspect-ratio:21/9;">
+        <div class="img-frame-icon">↑</div>
+        <strong>Campus experience map / narrative user flow</strong>
+        <div class="img-note">Add your campus map or full user flow diagram. Recommended: 1400×600px landscape</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION — INDIVIDUAL + GROUP -->
+<section id="reflection" class="bg-parchment">
+  <div class="container">
+    <div class="exhibit-label"><div class="el-line"></div><span class="el-text">Closing Statement</span></div>
+    <div class="section-title">Reflection</div>
+    <div class="ornament"><div class="orn-line"></div><div class="orn-dia"></div><div class="orn-line2"></div></div>
+
+    <!-- INDIVIDUAL REFLECTIONS -->
+    <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);font-weight:500;margin-bottom:1.25rem;">Individual Member Reflections</p>
+    <div class="individual-grid">
+
+      <div class="individual-card">
+        <div class="individual-card-header">
+          <div class="individual-initial">K</div>
+          <div>
+            <div class="individual-name">Kristen Clark</div>
+            <div class="individual-role">Physical Interaction Lead</div>
+          </div>
+        </div>
+        <p>My contribution this semester was the physical world of the experience — the artifacts users actually hold and interact with. Building the three riddle boxes taught me how much user testing matters before you commit to a physical object. I had four rounds of testing before I felt confident in the riddle difficulty, and every round changed something.</p>
+        <p>Hand-painting the Paralympic medal was the most unexpectedly challenging part of my semester. I've painted before but reproducing something with the visual weight of a real medal — something that needs to pass as authentic in someone's hands — required research, iteration, and a lot of patience with the cardboard surface. The ribbon felt like a small detail until users told me it was one of the most satisfying things to find in the I-spy hunt.</p>
+        <p>What I'd do differently: start the 3D printing earlier. We lost time waiting for the horse puzzle to print and assemble, which compressed the testing window for that artifact.</p>
+        <div class="individual-contribution">Primary contributions: 1800s riddle boxes · 3D-printed horse puzzles · Hand-painted Paralympic medal · Ribbon scavenger hunt · User testing oversight across all platforms</div>
+      </div>
+
+      <div class="individual-card">
+        <div class="individual-card-header">
+          <div class="individual-initial">O</div>
+          <div>
+            <div class="individual-name">Olivia Ho</div>
+            <div class="individual-role">Digital Design Lead &amp; Illustrator</div>
+          </div>
+        </div>
+        <p>I was responsible for the visual identity of the experience across the poster, the guiding app, the soldier's letter, and all character illustration. The poster went through four concepts and two full rounds of user testing before we landed on the curiosity strategy — that process was genuinely humbling. What I thought was the strongest concept wasn't what users connected with.</p>
+        <p>The app rebuild in Project 3 was my most significant challenge. After testing revealed the font was unreadable, the images had black halos, and users couldn't navigate backwards — I had to rebuild the whole thing. Using Claude to generate the coded screens from our style tile and user flow was a decision that saved me days of work, but I want to be honest: it only worked because I had already done the hard thinking about what each screen needed to do.</p>
+        <p>Using Firefly for the Keeper characters was similar. The output was only good because my sketches were already clear. AI accelerated my production but didn't replace my judgment about what the characters should look and feel like.</p>
+        <div class="individual-contribution">Primary contributions: Character illustration (all) · Museum poster · Soldier's QR envelope · Guiding app · Instagram post design</div>
+      </div>
+
+      <div class="individual-card">
+        <div class="individual-card-header">
+          <div class="individual-initial">M</div>
+          <div>
+            <div class="individual-name">Minh Vo</div>
+            <div class="individual-role">Project Manager</div>
+          </div>
+        </div>
+        <p>Being project manager for a four-platform experience across 14 weeks was more demanding than I expected — not because of the tools (the Gantt chart worked well), but because coordination between platforms was harder than planning for it. When the Unity pipeline broke in Week 9, it wasn't in my timeline. Managing the ripple effect of unexpected failures while keeping everyone on track is something I genuinely improved at across the three projects.</p>
+        <p>I also led the campus integration — mapping the physical path from the Marquee through the Learning Commons to the library — and built the @kombmuseum Instagram. Writing eight captions in the voice of our narrative was a creative challenge I didn't anticipate as part of the PM role, and I'm proud of how the social presence came together as real evidence of the project.</p>
+        <p>In Project 3, taking on a formal QA role across all platforms gave me a much more complete picture of the experience than I'd had in the earlier projects. I'd build that in from the start next time.</p>
+        <div class="individual-contribution">Primary contributions: Gantt chart · RACI chart · Group contract · @kombmuseum Instagram · Campus integration · Museum poster (co) · Documentation site (P4)</div>
+      </div>
+
+      <div class="individual-card">
+        <div class="individual-card-header">
+          <div class="individual-initial">B</div>
+          <div>
+            <div class="individual-name">Brandon Lee</div>
+            <div class="individual-role">Immersive Media Lead</div>
+          </div>
+        </div>
+        <p>I was responsible for AR and VR — the two technically most demanding platforms in our experience. The Unity AR prototype had to be abandoned entirely for Lens Studio, and then the Lens Studio AI tool also had to be abandoned in favour of writing JavaScript manually. By the time I had a working AR experience, I had built three different versions of essentially the same thing. That was painful, but I learned more about the limits of each platform than any tutorial could have taught me.</p>
+        <p>The VR pipeline crash in Project 3 — where the HDRP to URP switch broke all textures — is the thing I'll remember most from this semester. Using Claude AI to debug my C# code was genuinely different from Googling errors. Being able to ask "why does this line fail" and get an explanation rather than just a fix changed how I think about debugging. I'm faster at reading C# now than I was at the start of the semester because of those conversations.</p>
+        <p>What I'd do differently: prototype on the final target hardware (Oculus Rift S) from day one, not at the end of Project 2 when it was almost too late to fix compatibility.</p>
+        <div class="individual-contribution">Primary contributions: AR experience (Lens Studio / JavaScript) · VR experience (Unity C# / Oculus Rift S) · Immersive audio and environment design</div>
+      </div>
+
+    </div>
+
+    <!-- Process reflection submission slots -->
+    <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);font-weight:500;margin-bottom:0.75rem;margin-top:3rem;">Individual Process Reflection Documents</p>
+    <p style="font-size:0.8rem;color:var(--text-mid);margin-bottom:1rem;">Each member submitted a one-page written process reflection as part of the P4 professionalism criteria. Add screenshots or scans of your submitted documents below.</p>
+    <div class="img-grid" style="grid-template-columns:repeat(4,1fr);">
+      <div class="img-frame" style="aspect-ratio:3/4;">
+        <div class="img-frame-icon">↑</div>
+        <strong>Kristen's reflection</strong>
+        <div class="img-note">1-page process reflection document</div>
+      </div>
+      <div class="img-frame" style="aspect-ratio:3/4;">
+        <div class="img-frame-icon">↑</div>
+        <strong>Olivia's reflection</strong>
+        <div class="img-note">1-page process reflection document</div>
+      </div>
+      <div class="img-frame" style="aspect-ratio:3/4;">
+        <div class="img-frame-icon">↑</div>
+        <strong>Minh's reflection</strong>
+        <div class="img-note">1-page process reflection document</div>
+      </div>
+      <div class="img-frame" style="aspect-ratio:3/4;">
+        <div class="img-frame-icon">↑</div>
+        <strong>Brandon's reflection</strong>
+        <div class="img-note">1-page process reflection document</div>
+      </div>
+    </div>
+
+    <!-- GROUP REFLECTION -->
+    <p style="font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--warm-mid);font-weight:500;margin-bottom:1.25rem;margin-top:3.5rem;">Group Reflection</p>
+    <div class="reflection-grid">
+      <div class="reflection-block">
+        <h3>What We Built &amp; What It Cost</h3>
+        <p>Completing a functioning, multi-platform experience across AR, VR, physical, and digital mediums — set on a real campus with real users walking a real path — is something we're proud of as a team. The hand-painted medal, the 3D-printed puzzle, the interactive QR envelope, the fully coded app. None of it was easy and none of it was seamless.</p>
+        <div class="pull-quote">
+          <p>The campus walkthrough in Week 12 was the first time we saw all four platforms working together as a single experience. We'd been building in isolation for weeks. Suddenly it felt like something real.</p>
+        </div>
+        <p>What it cost us: the HDRP pipeline crisis in Week 9 lost days of development time. The app rebuild in Project 3 added pressure at the worst moment. The Lens Studio pivot in Week 6 reset three weeks of AR work. None of these were failures — they were the actual cost of building something that worked on all four platforms simultaneously.</p>
+      </div>
+      <div class="reflection-block">
+        <h3>AI: What We Actually Learned</h3>
+        <div class="growth-track">
+          <div class="growth-item">
+            <span class="growth-phase">Project 1</span>
+            <div class="growth-text">AI as a creative mirror. ChatGPT helped us pressure-test narrative logic — challenging character motivations, not generating story. It didn't write our myth. It helped us identify where our adaptation was thin.</div>
+          </div>
+          <div class="growth-item">
+            <span class="growth-phase">Project 2</span>
+            <div class="growth-text">AI as a diagnostic tool. When Unity broke, ChatGPT read our error log and explained what went wrong. When Mord's dialogue felt wrong, it revised tone — not plot. AI was solving specific, contained problems with human direction at every step.</div>
+          </div>
+          <div class="growth-item">
+            <span class="growth-phase">Project 3</span>
+            <div class="growth-text">AI as a production partner. Claude built the app screens from our style tile — but the colour palette, character sequence, and navigation logic were decisions we'd already made. Firefly made Olivia's characters more polished, not more original.</div>
+          </div>
+          <div class="growth-item">
+            <span class="growth-phase">Lesson</span>
+            <div class="growth-text">AI made us faster on things we already understood. When we tried to use it before we had a direction — the early Lens Studio AI attempt — it produced nothing useful. The quality of the AI output was always a direct reflection of the quality of human thinking that preceded it.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-ornament">— ✦ —</div>
+  <div class="footer-title">The Last Place You'd Look</div>
+  <div class="footer-sub">KOMB Studios &nbsp;·&nbsp; Interactive Narrative Winter 2026 &nbsp;·&nbsp; Project 4</div>
+  <div class="footer-members">Kristen Clark &nbsp;·&nbsp; Olivia Ho &nbsp;·&nbsp; Minh Vo &nbsp;·&nbsp; Brandon Lee</div>
+</footer>
+
+
+<script>
+(function() {
+  var nav         = document.getElementById('main-nav');
+  var placeholder = document.getElementById('nav-placeholder');
+  var hero        = document.getElementById('hero');
+  var paintings   = document.getElementById('hero-paintings');
+  var statues     = document.getElementById('hero-statues');
+  var figures     = document.getElementById('hero-figures');
+
+  var heroH = hero.offsetHeight;
+
+  function onScroll() {
+    var scrollY = window.scrollY || window.pageYOffset;
+    var heroBottom = hero.getBoundingClientRect().bottom;
+
+    /* ── sticky nav ── */
+    if (heroBottom <= 0) {
+      if (!nav.classList.contains('stuck')) {
+        nav.classList.add('stuck');
+        placeholder.classList.add('active');
+        document.body.insertBefore(nav, placeholder.nextSibling);
+      }
+    } else {
+      if (nav.classList.contains('stuck')) {
+        nav.classList.remove('stuck');
+        placeholder.classList.remove('active');
+        hero.appendChild(nav);
+      }
+    }
+
+    /* ── parallax: elements rise at different speeds on scroll ── */
+    if (scrollY <= heroH) {
+      /* paintings rise fastest — 0.55x scroll speed upward */
+      if (paintings) paintings.style.transform = 'translateY(' + (-scrollY * 0.55) + 'px)';
+      /* (statues and figures removed) */
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', function() { heroH = hero.offsetHeight; });
+  onScroll();
+})();
+</script>
+</body>
+</html>
